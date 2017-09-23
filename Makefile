@@ -4,8 +4,8 @@
 # Fall 2017
 ##
 
-CXX=gcc
-CXXFLAGS=-ggdb -Wall
+CXX=g++
+CXXFLAGS=-std=c++11 -ggdb -Wall
 LEX=flex++
 LEXFLAGS=--warn
 
