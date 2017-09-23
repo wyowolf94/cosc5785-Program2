@@ -1,0 +1,44 @@
+%{
+#include"lex.h"
+using namespace std;
+int coln = 1;
+int errn = 0;
+%}
+
+%option outfile="program2_lex.cpp"
+%option noyywrap
+%option yylineno
+
+
+COMMENT    [/\*.\*/|\/\/.(\n)]
+KEYWORD    ["int"|"void"|"class"|"new"|"print"|"read" 
+           |"return"|"while"|"if"|"else"|"this"]
+
+INTEGER    [0-9]+
+FLOAT      {INTEGER}\.{INTEGER}
+SCIENTIFIC {FLOAT}[Ee][\+\-]?{INTEGER}
+
+ID         [\_A-Za-z][\_A-Za-z0-9]*
+
+UOP        [\+\-\!]
+ROP        [== | != | <= | >= | < | >]
+SOP        [\+\-(||)]
+POP        [\*\/\%(&&)] 
+
+CHARERR    [ A-Za-z( |{UOP}|{ROP}|{SOP}|{POP})] 
+WORDERR    [.^({COMMMENT}|{KEYWORD}|{INTEGER}|{FLOAT}|{SCIENTIFIC}
+           |{ID}|{UOP}|{ROP}|{SOP}|{POP})] 
+
+t%
+
+[ ]+         atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 1;
+[\t]+        atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 2;
+
+{INTEGER}    atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 5;
+{FLOAT}      atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 6;
+{SCIENTIFIC} atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 7;
+{ID}         atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 8;
+[\n]         atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = "";     coln=1;         return 9;
+.            atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 10;
+
+%%
