@@ -29,7 +29,7 @@ CHARERR    [ A-Za-z( |{UOP}|{ROP}|{SOP}|{POP})]
 WORDERR    [.^({COMMMENT}|{KEYWORD}|{INTEGER}|{FLOAT}|{SCIENTIFIC}
            |{ID}|{UOP}|{ROP}|{SOP}|{POP})] 
 
-t%
+%%
 
 [ ]+         atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 1;
 [\t]+        atts->leng = yyleng; atts->lNum = yylineno; atts->cNum = coln; atts->value = yytext; coln += yyleng; return 2;
