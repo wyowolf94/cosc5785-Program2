@@ -23,11 +23,14 @@ int main() {
   atts = new attributes{0,0,0,""};
     
   while (((rtn = myScanner.yylex()) != 0)) {
-    out = out + to_string(atts->lNum) + "\t" +
+    if(rtn == 12) {break;}
+    if(rtn != 10 && rtn != 1) {
+      out = out + to_string(atts->lNum) + "\t" +
                 to_string(atts->cNum) + "\t" +
 		atts->token + "\t\t" +
 		to_string(atts->leng) + "\t" +
 		atts->value + "\n";
+    } 
   }
   
   cout << out;

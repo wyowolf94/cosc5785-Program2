@@ -2,12 +2,15 @@
 #include"lex.h"
 using namespace std;
 int coln = 1;
+int errn = 0;
 %}
 
 %option outfile="program2_lex.cpp"
 %option noyywrap
 %option yylineno
 
+CHEAT       [\x00-\xFF]{-}[(*/)]
+MULTILINE   "/*"{CHEAT}"*/"
 SLCOMMENT   (\/\/.*[\n])
 KEYWORD     "int"|"void"|"class"|"new"|"print"|"read"|"return"|"while"|"if"|"else"|"this" 
 NUMBER      [0-9]+
@@ -18,7 +21,7 @@ UNAOP       "+"|"-"|"!"
 PUNCT       [\[\]\{\}\;\,\(\)\=\.]|"//" 
 ID          [\_A-Za-z][\_A-Za-z0-9]* 
 
-%x COMMENT
+%x COMMENT WORDERROR
 
 %%
 
@@ -54,7 +57,7 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
   return 1; }
 
 {KEYWORD} {
-  updateAtts(yylineno, coln, yyleng, "KEYWORD", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
   return 9; }
 
@@ -79,7 +82,7 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
   return 5; } 
 
 {PUNCT} { 
-  updateAtts(yylineno, coln, yyleng, "PUNCT", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return 6; }
 
@@ -111,6 +114,16 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
 . {
   updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
   coln += yyleng;
-  return 11;}
+  errn++;
+  BEGIN(WORDERROR);
+  if(errn <= 20) {
+    return 11;
+  } else {
+    return 12;
+  }
+}
+
+<WORDERROR>.* {}
+  
 
 %%
