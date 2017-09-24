@@ -16,6 +16,7 @@ struct attributes{
   int lNum;
   int cNum;
   int leng;
+  string token;
   string value;
 };
 

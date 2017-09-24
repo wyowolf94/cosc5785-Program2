@@ -18,14 +18,14 @@ attributes *atts;
 int main() {
   yyFlexLexer myScanner; 
   int rtn=999;
-  string out = "Line\tColumn\tType\tLength\tValue\n";
+  string out = "Line\tColumn\tType\t\tLength\tValue\n";
   
   atts = new attributes{0,0,0,""};
     
   while (((rtn = myScanner.yylex()) != 0)) {
     out = out + to_string(atts->lNum) + "\t" +
                 to_string(atts->cNum) + "\t" +
-		to_string(rtn-1) + "\t" +
+		atts->token + "\t\t" +
 		to_string(atts->leng) + "\t" +
 		atts->value + "\n";
   }
