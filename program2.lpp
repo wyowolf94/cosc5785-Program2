@@ -10,7 +10,7 @@ int errn = 0;
 %option yylineno
 
 CHEAT       [\x00-\xFF]{-}[(*/)]
-MULTILINE   "/*"{CHEAT}"*/"
+MULTILINE   "/*"{CHEAT}["*/"]?
 SLCOMMENT   (\/\/.*[\n])
 KEYWORD     "int"|"void"|"class"|"new"|"print"|"read"|"return"|"while"|"if"|"else"|"this" 
 NUMBER      [0-9]+
@@ -18,7 +18,7 @@ RELOP       "=="|"!="|"<="|">="|">"|"<"
 SUMOP       "+"|"-"|"||"
 PRODOP      "*"|"/"|"%"|"&&"
 UNAOP       "+"|"-"|"!"
-PUNCT       [\[\]\{\}\;\,\(\)\=\.]|"//" 
+OPRS        [\[\]\{\}\;\,\(\)\=\.]|"//"|{RELOP}|{SUMOP}|{PRODOP}|{UNAOP} 
 ID          [\_A-Za-z][\_A-Za-z0-9]* 
 
 %x COMMENT WORDERROR
@@ -81,7 +81,7 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
   coln += yyleng; 
   return UOP; } 
 
-{PUNCT} { 
+{OPRS} { 
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return OPS; }
@@ -115,15 +115,17 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
   updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
   coln += yyleng;
   errn++;
-  //BEGIN(WORDERROR);
-  if(errn <= 20) {
-    return ERROR;
-  } else {
+  yyless(0);
+  BEGIN(WORDERROR);
+  if(errn > 20) {
     return MAXERR;
   }
 }
 
-<WORDERROR>.* {}
-  
+<WORDERROR>.([^ \n\t\[\]\{\}!=<>&|\+\-\*\/\%\;\,\(\)])* { 
+  updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
+  coln += yyleng;
+  BEGIN(INITIAL);
+  return WRDERR;}
 
 %%

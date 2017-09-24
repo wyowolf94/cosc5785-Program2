@@ -1,0 +1,9 @@
+You can have an #error>followed by an OP
+You can have an $error followed by a space
+an #err
+followed by a newline
+an $error	followed by a tab
+an ###eerr##3 with real crap
+an error&canbefollowedby&&
+single $ character & errors$
+
