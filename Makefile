@@ -11,8 +11,8 @@ LEXFLAGS=--warn
 
 .PHONY: clean
 
-program2: program2.cpp program2_lex.cpp hdr.h 
-	${CXX} ${CXXFLAGS} -o program2 program2.cpp program2_lex.cpp
+program2: program2.cpp program2_lex.cpp attributes.h 
+	${CXX} ${CXXFLAGS} -o program2 program2.cpp program2_lex.cpp attributes.cpp
 
 program2_lex.cpp: program2.lpp lex.h 
 	${LEX} ${LEXFLAGS} program2.lpp

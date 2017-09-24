@@ -23,167 +23,93 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
 %%
 
 "/*" {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "COMMENT";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   BEGIN(COMMENT);
   return 1; }
 
 <COMMENT>[^*\n]* {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
   return 1; }
 
 <COMMENT>"*"+[^*/\n]* {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng; 
-  return 1;} 
+  return 1; } 
 
 <COMMENT>\n {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1;
   return 1; }
 
 <COMMENT>"*"+"/" {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
   BEGIN(INITIAL); 
-  return 1;}
-  
+  return 1; }
 
 {SLCOMMENT} {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "COMMENT";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1; 
   return 1; }
 
-
 {KEYWORD} {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "KEYWORD";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "KEYWORD", yytext);
   coln+= yyleng;
   return 9; }
 
 {RELOP} {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "R-OP";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return 2; }
 
 {SUMOP} {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "S-OP";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
   return 3; }
 
 {PRODOP} {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "P-OP";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
   return 4; }
 
 {UNAOP} {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "U-OP";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "U-OP", yytext);
   coln += yyleng; 
   return 5; } 
 
 {PUNCT} { 
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "PUNCT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "PUNCT", yytext);
   coln += yyleng;
   return 6; }
 
 {ID} {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "ID";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "ID", yytext);
   coln+= yyleng;
   return 7; }
 
 {NUMBER} {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "NUMBER";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "NUMBER", yytext);
   coln+= yyleng;
   return 8; }
 
 [ ] {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "W-SPACE";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
   return 10; }
 
 [\n] {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "W-SPACE";
-  atts->value = "";
+  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln = 1;
   return 10; }
 
 [\t] {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "W-SPACE";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
   return 10; }
 
 . {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "ERROR";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
   coln += yyleng;
   return 11;}
 

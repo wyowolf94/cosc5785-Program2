@@ -1,11 +1,11 @@
 // Shaya Wolf
 // COSC5785 - Compilers 
 // Program 2
-// hdr.h
+// attributes.h
 // 9/20/2017
 
-#ifndef HDR_H
-#define HDR_H
+#ifndef ATTRIBUTES_H
+#define ATTRIBUTES_H
 
 #include<iostream>
 #include<string.h>
@@ -19,5 +19,7 @@ struct attributes{
   string token;
   string value;
 };
+
+void updateAtts(int lNum, int cNum, int leng, string token, string value);
 
 #endif

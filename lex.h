@@ -7,7 +7,7 @@
 #ifndef LEX_H
 #define LEX_H
 
-#include"hdr.h"
+#include"attributes.h"
 #include<iostream>
 
 extern attributes *atts;

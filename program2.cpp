@@ -9,7 +9,7 @@
 #include<iostream>
 #include<fstream>
 #include<string.h>
-#include "hdr.h"
+#include "attributes.h"
 
 using namespace std;
 

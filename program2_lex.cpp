@@ -683,228 +683,156 @@ case 1:
 YY_RULE_SETUP
 #line 25 "program2.lpp"
 {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "COMMENT";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   BEGIN(COMMENT);
   return 1; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 34 "program2.lpp"
+#line 30 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
   return 1; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 43 "program2.lpp"
+#line 35 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng; 
-  return 1;} 
+  return 1; } 
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 52 "program2.lpp"
+#line 40 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1;
   return 1; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 61 "program2.lpp"
+#line 45 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "COMMENT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
   BEGIN(INITIAL); 
-  return 1;}
+  return 1; }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 72 "program2.lpp"
+#line 51 "program2.lpp"
 {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "COMMENT";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1; 
   return 1; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 82 "program2.lpp"
+#line 56 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "KEYWORD";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "KEYWORD", yytext);
   coln+= yyleng;
   return 9; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 91 "program2.lpp"
+#line 61 "program2.lpp"
 {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "R-OP";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return 2; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 100 "program2.lpp"
+#line 66 "program2.lpp"
 {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "S-OP";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
   return 3; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 109 "program2.lpp"
+#line 71 "program2.lpp"
 {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno; 
-  atts->cNum = coln; 
-  atts->token = "P-OP";
-  atts->value = yytext; 
+  updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
   return 4; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 118 "program2.lpp"
+#line 76 "program2.lpp"
 {
-  atts->leng = yyleng; 
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "U-OP";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "U-OP", yytext);
   coln += yyleng; 
   return 5; } 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 127 "program2.lpp"
+#line 81 "program2.lpp"
 { 
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "PUNCT";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "PUNCT", yytext);
   coln += yyleng;
   return 6; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 136 "program2.lpp"
+#line 86 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "ID";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "ID", yytext);
   coln+= yyleng;
   return 7; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 145 "program2.lpp"
+#line 91 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "NUMBER";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "NUMBER", yytext);
   coln+= yyleng;
   return 8; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 154 "program2.lpp"
+#line 96 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "W-SPACE";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
   return 10; }
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 163 "program2.lpp"
+#line 101 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "W-SPACE";
-  atts->value = "";
+  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln = 1;
   return 10; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 172 "program2.lpp"
+#line 106 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "W-SPACE";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
   return 10; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 181 "program2.lpp"
+#line 111 "program2.lpp"
 {
-  atts->leng = yyleng;
-  atts->lNum = yylineno;
-  atts->cNum = coln;
-  atts->token = "ERROR";
-  atts->value = yytext;
+  updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
   coln += yyleng;
   return 11;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 190 "program2.lpp"
+#line 116 "program2.lpp"
 ECHO;
 	YY_BREAK
-#line 908 "program2_lex.cpp"
+#line 836 "program2_lex.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -1812,7 +1740,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 190 "program2.lpp"
+#line 116 "program2.lpp"
 
 
 
