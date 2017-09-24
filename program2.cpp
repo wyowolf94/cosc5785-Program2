@@ -23,8 +23,8 @@ int main() {
   atts = new attributes{0,0,0,""};
     
   while (((rtn = myScanner.yylex()) != 0)) {
-    if(rtn == 12) {break;}
-    if(rtn != 10 && rtn != 1) {
+    if(rtn == MAXERR) {break;}
+    if(rtn != WSPC && rtn != COMM) {
       out = out + to_string(atts->lNum) + "\t" +
                 to_string(atts->cNum) + "\t" +
 		atts->token + "\t\t" +

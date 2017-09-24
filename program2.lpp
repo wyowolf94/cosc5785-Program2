@@ -28,98 +28,98 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
 "/*" {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   BEGIN(COMMENT);
-  return 1; }
+  return COMM; }
 
 <COMMENT>[^*\n]* {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
-  return 1; }
+  return COMM; }
 
 <COMMENT>"*"+[^*/\n]* {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng; 
-  return 1; } 
+  return COMM; } 
 
 <COMMENT>\n {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1;
-  return 1; }
+  return COMM; }
 
 <COMMENT>"*"+"/" {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
   BEGIN(INITIAL); 
-  return 1; }
+  return COMM; }
 
 {SLCOMMENT} {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1; 
-  return 1; }
+  return COMM; }
 
 {KEYWORD} {
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
-  return 9; }
+  return KEYW; }
 
 {RELOP} {
   updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
-  return 2; }
+  return ROP; }
 
 {SUMOP} {
   updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
-  return 3; }
+  return SOP; }
 
 {PRODOP} {
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
-  return 4; }
+  return POP; }
 
 {UNAOP} {
   updateAtts(yylineno, coln, yyleng, "U-OP", yytext);
   coln += yyleng; 
-  return 5; } 
+  return UOP; } 
 
 {PUNCT} { 
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
-  return 6; }
+  return OPS; }
 
 {ID} {
   updateAtts(yylineno, coln, yyleng, "ID", yytext);
   coln+= yyleng;
-  return 7; }
+  return IDEN; }
 
 {NUMBER} {
   updateAtts(yylineno, coln, yyleng, "NUMBER", yytext);
   coln+= yyleng;
-  return 8; }
+  return NUM; }
 
 [ ] {
   updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
-  return 10; }
+  return WSPC; }
 
 [\n] {
   updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln = 1;
-  return 10; }
+  return WSPC; }
 
 [\t] {
   updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
-  return 10; }
+  return WSPC; }
 
 . {
   updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
   coln += yyleng;
   errn++;
-  BEGIN(WORDERROR);
+  //BEGIN(WORDERROR);
   if(errn <= 20) {
-    return 11;
+    return ERROR;
   } else {
-    return 12;
+    return MAXERR;
   }
 }
 
