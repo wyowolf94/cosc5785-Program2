@@ -1,0 +1,25 @@
+<DOUBERROR>[^&]*(&{2}) { 
+  yyless(yyleng-2);
+  updateAtts(yylineno, coln, yyleng, "&ERROR", yytext);
+  coln += yyleng;
+  BEGIN(INITIAL);
+  return WRDERR; }
+
+<DOUBERROR>[^|]*(\|{2}) {
+  yyless(yyleng-2);
+  updateAtts(yylineno, coln, yyleng, "|ERROR", yytext);
+  coln += yyleng;
+  BEGIN(INITIAL);
+  return WRDERR; }
+
+<DOUBERROR>. {
+  yyless(0);
+  BEGIN(WORDERROR); }
+
+<WORDERROR>.([^ \n\t\[\]\{\}!=<>\+\-\*\/\%\;\,\(\)])* { 
+  updateAtts(yylineno, coln, yyleng, "WERROR", yytext);
+  coln += yyleng;
+  BEGIN(INITIAL);
+  return WRDERR;}
+
+

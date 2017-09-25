@@ -19,9 +19,11 @@ SUMOP       "+"|"-"|"||"
 PRODOP      "*"|"/"|"%"|"&&"
 UNAOP       "+"|"-"|"!"
 OPRS        [\[\]\{\}\;\,\(\)\=\.]|"//"|{RELOP}|{SUMOP}|{PRODOP}|{UNAOP} 
+ERRTERM     [\[\]{}<>!\+\-\*\/%;,()=. \t\n]
 ID          [\_A-Za-z][\_A-Za-z0-9]* 
+NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 
-%x COMMENT WORDERROR
+%x COMMENT INNERERROR WORDERROR
 
 %%
 
@@ -97,12 +99,12 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
   return NUM; }
 
 [ ] {
-  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
+  updateAtts(yylineno, coln, yyleng, "SPACE", "");
   coln+= yyleng;
   return WSPC; }
 
 [\n] {
-  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
+  updateAtts(yylineno, coln, yyleng, "NEWLINE", "");
   coln = 1;
   return WSPC; }
 
@@ -110,6 +112,12 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
   updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
   return WSPC; }
+
+.{ERRTERM} {
+  updateAtts(yylineno, coln, yyleng, "CHRERR", yytext);
+  coln+=yyleng;
+  return CHRERR; }
+
 
 . {
   updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
@@ -122,10 +130,27 @@ ID          [\_A-Za-z][\_A-Za-z0-9]*
   }
 }
 
-<WORDERROR>.([^ \n\t\[\]\{\}!=<>&|\+\-\*\/\%\;\,\(\)])* { 
-  updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
-  coln += yyleng;
-  BEGIN(INITIAL);
-  return WRDERR;}
+<WORDERROR>.{NOTERRTERM}* {
+  yymore();
+  BEGIN(INNERERROR);
+} 
 
+<INNERERROR>"&&"|"||" {
+  yyless(yyleng-2);
+  updateAtts(yylineno, coln, yyleng, "&&/||ERROR", yytext);
+  BEGIN(INITIAL);
+  return WRDERR;
+}
+
+<INNERERROR>{ERRTERM} {
+  yyless(yyleng-1);
+  updateAtts(yylineno, coln, yyleng, "WSERROR", yytext);
+  BEGIN(INITIAL);
+  return WRDERR;
+}
+
+<INNERERROR>. {
+  yymore();
+  BEGIN(WORDERROR);
+}
 %%

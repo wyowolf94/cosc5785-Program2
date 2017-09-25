@@ -24,13 +24,13 @@ int main() {
     
   while (((rtn = myScanner.yylex()) != 0)) {
     if(rtn == MAXERR) {break;}
-    if(rtn != WSPC && rtn != COMM) {
+    //if(rtn != WSPC && rtn != COMM) {
       out = out + to_string(atts->lNum) + "\t" +
                 to_string(atts->cNum) + "\t" +
 		atts->token + "\t\t" +
 		to_string(atts->leng) + "\t" +
 		atts->value + "\n";
-    } 
+    //} 
   }
   
   cout << out;

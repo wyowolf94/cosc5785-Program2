@@ -6,4 +6,15 @@ an $error	followed by a tab
 an ###eerr##3 with real crap
 an error&canbefollowedby&&
 single $ character & errors$
+#include&something&&return
+#include|something||return
+#include&|something
+something||
+else&&
+#include&something&&
+#include&soemthing&&else
+#include&&soemthing&&
+#include&&soemthing&&selse
+#incldue&something&something&&else
+
 
