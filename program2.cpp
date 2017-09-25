@@ -23,7 +23,10 @@ int main() {
   atts = new attributes{0,0,0,""};
     
   while (((rtn = myScanner.yylex()) != 0)) {
-    if(rtn == MAXERR) {break;}
+    if(rtn == MAXERR) {
+      out = out + "\nMAX ERRORS REACHED";
+      break; 
+    } 
     //if(rtn != WSPC && rtn != COMM) {
       out = out + to_string(atts->lNum) + "\t" +
                 to_string(atts->cNum) + "\t" +
@@ -33,7 +36,7 @@ int main() {
     //} 
   }
   
-  cout << out;
-  
+  cout << out << "\n";
+
   return 0 ;
 }

@@ -23,3 +23,13 @@
   return WRDERR;}
 
 
+
+
+
+.{ERRTERM} {
+  updateAtts(yylineno, coln, yyleng, "CHRERR", yytext);
+  coln+=yyleng;
+  errn++;
+  return CHRERR; }
+
+

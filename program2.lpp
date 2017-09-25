@@ -9,8 +9,6 @@ int errn = 0;
 %option noyywrap
 %option yylineno
 
-CHEAT       [\x00-\xFF]{-}[(*/)]
-MULTILINE   "/*"{CHEAT}["*/"]?
 SLCOMMENT   (\/\/.*[\n])
 KEYWORD     "int"|"void"|"class"|"new"|"print"|"read"|"return"|"while"|"if"|"else"|"this" 
 NUMBER      [0-9]+
@@ -18,7 +16,7 @@ RELOP       "=="|"!="|"<="|">="|">"|"<"
 SUMOP       "+"|"-"|"||"
 PRODOP      "*"|"/"|"%"|"&&"
 UNAOP       "+"|"-"|"!"
-OPRS        [\[\]\{\}\;\,\(\)\=\.]|"//"|{RELOP}|{SUMOP}|{PRODOP}|{UNAOP} 
+OPRS        [\[\]\{\}\;\,\(\)\=\.]|"//" 
 ERRTERM     [\[\]{}<>!\+\-\*\/%;,()=. \t\n]
 ID          [\_A-Za-z][\_A-Za-z0-9]* 
 NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
@@ -28,100 +26,109 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 %%
 
 "/*" {
-  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
+  updateAtts(yylineno, coln, yyleng, "COMMENT", "MULTILINE");
   BEGIN(COMMENT);
-  return COMM; }
+  return COMM; 
+}
 
 <COMMENT>[^*\n]* {
-  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
+  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
-  return COMM; }
+  //return COMM; 
+}
 
 <COMMENT>"*"+[^*/\n]* {
-  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
+  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng; 
-  return COMM; } 
+  //return COMM; 
+} 
 
 <COMMENT>\n {
-  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
+  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1;
-  return COMM; }
+  //return COMM; 
+}
 
 <COMMENT>"*"+"/" {
-  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
+  //updateAtts(yylineno, coln, yyleng, "COMMENT", "MULTILINE");
   BEGIN(INITIAL); 
-  return COMM; }
+  //return COMM; 
+}
 
 {SLCOMMENT} {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1; 
-  return COMM; }
+  return COMM; 
+}
 
 {KEYWORD} {
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
-  return KEYW; }
+  return KEYW; 
+}
 
 {RELOP} {
   updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
-  return ROP; }
+  return ROP; 
+}
 
 {SUMOP} {
   updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
-  return SOP; }
+  return SOP; 
+}
 
 {PRODOP} {
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
-  return POP; }
+  return POP; 
+}
 
 {UNAOP} {
   updateAtts(yylineno, coln, yyleng, "U-OP", yytext);
   coln += yyleng; 
-  return UOP; } 
+  return UOP; 
+} 
 
 {OPRS} { 
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
-  return OPS; }
+  return OPS; 
+}
 
 {ID} {
   updateAtts(yylineno, coln, yyleng, "ID", yytext);
   coln+= yyleng;
-  return IDEN; }
+  return IDEN; 
+}
 
 {NUMBER} {
   updateAtts(yylineno, coln, yyleng, "NUMBER", yytext);
   coln+= yyleng;
-  return NUM; }
+  return NUM; 
+}
 
 [ ] {
   updateAtts(yylineno, coln, yyleng, "SPACE", "");
   coln+= yyleng;
-  return WSPC; }
+  return WSPC; 
+}
 
 [\n] {
   updateAtts(yylineno, coln, yyleng, "NEWLINE", "");
   coln = 1;
-  return WSPC; }
+  return WSPC; 
+}
 
 [\t] {
   updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
-  return WSPC; }
-
-.{ERRTERM} {
-  updateAtts(yylineno, coln, yyleng, "CHRERR", yytext);
-  coln+=yyleng;
-  return CHRERR; }
-
+  return WSPC; 
+}
 
 . {
-  updateAtts(yylineno, coln, yyleng, "ERROR", yytext);
-  coln += yyleng;
   errn++;
   yyless(0);
   BEGIN(WORDERROR);
@@ -130,27 +137,50 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
   }
 }
 
-<WORDERROR>.{NOTERRTERM}* {
+<WORDERROR>{NOTERRTERM}* {
   yymore();
-  BEGIN(INNERERROR);
+  BEGIN(INNERERROR); 
 } 
+
+<WORDERROR>[ \n\t\[\]\{\}!=<>\+\-\*\/\%\;\,\(\)] {
+  yyless(yyleng-1);
+  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  coln += yyleng;
+  BEGIN(INITIAL);
+  return WRDERR; 
+}
+
+<WORDERROR><<EOF>> {
+  yyless(yyleng-1);
+  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  coln += yyleng;
+  BEGIN(INITIAL);
+  return WRDERR; 
+}
+
+<WORDERROR>[&|] {
+  yymore(); 
+}
 
 <INNERERROR>"&&"|"||" {
   yyless(yyleng-2);
-  updateAtts(yylineno, coln, yyleng, "&&/||ERROR", yytext);
+  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  coln += yyleng;
   BEGIN(INITIAL);
-  return WRDERR;
+  return WRDERR; 
 }
 
 <INNERERROR>{ERRTERM} {
   yyless(yyleng-1);
-  updateAtts(yylineno, coln, yyleng, "WSERROR", yytext);
+  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  coln += yyleng;
   BEGIN(INITIAL);
-  return WRDERR;
+  return WRDERR; 
 }
 
 <INNERERROR>. {
   yymore();
-  BEGIN(WORDERROR);
+  BEGIN(WORDERROR); 
 }
+
 %%
