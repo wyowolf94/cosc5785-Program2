@@ -9,6 +9,7 @@
 #include<iostream>
 #include<fstream>
 #include<string.h>
+#include<iomanip>
 #include "attributes.h"
 
 using namespace std;
@@ -18,25 +19,29 @@ attributes *atts;
 int main() {
   yyFlexLexer myScanner; 
   int rtn=999;
-  string out = "Line\tColumn\tType\t\tLength\tValue\n";
+  
+  cout << setw(5) << "Line" 
+       << setw(5) << "Coln" 
+       << setw(25) << "Token"
+       << setw(25) << "Value\n"; 
   
   atts = new attributes{0,0,0,""};
     
   while (((rtn = myScanner.yylex()) != 0)) {
     if(rtn == MAXERR) {
-      out = out + "\nMAX ERRORS REACHED";
+      cout << "\nMAX ERRORS REACHED";
       break; 
     } 
-    //if(rtn != WSPC && rtn != COMM) {
-      out = out + to_string(atts->lNum) + "\t" +
-                to_string(atts->cNum) + "\t" +
-		atts->token + "\t\t" +
-		to_string(atts->leng) + "\t" +
-		atts->value + "\n";
-    //} 
+    if(rtn != WSPC && rtn != COMM) {
+      cout << setw(5) << atts->lNum 
+           << setw(5) << atts->cNum
+           << setw(25) << atts->token
+           << setw(25) << atts->value 
+           << "\n";
+    } 
   }
   
-  cout << out << "\n";
+  cout << "\n";
 
   return 0 ;
 }

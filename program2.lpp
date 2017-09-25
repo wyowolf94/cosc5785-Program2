@@ -32,28 +32,20 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 <COMMENT>[^*\n]* {
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
-  //return COMM; 
 }
 
 <COMMENT>"*"+[^*/\n]* {
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng; 
-  //return COMM; 
 } 
 
 <COMMENT>\n {
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
-  coln = 1;
-  //return COMM; 
+  coln = 1; 
 }
 
 <COMMENT>"*"+"/" {
   coln += yyleng;
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", "MULTILINE");
   BEGIN(INITIAL); 
-  //return COMM; 
 }
 
 {SLCOMMENT} {
@@ -144,7 +136,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 
 <WORDERROR>[ \n\t\[\]\{\}!=<>\+\-\*\/\%\;\,\(\)] {
   yyless(yyleng-1);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 
@@ -152,7 +144,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 
 <WORDERROR><<EOF>> {
   yyless(yyleng-1);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 
@@ -164,7 +156,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 
 <INNERERROR>"&&"|"||" {
   yyless(yyleng-2);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 
@@ -172,7 +164,11 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 
 <INNERERROR>{ERRTERM} {
   yyless(yyleng-1);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  if(yyleng == 1) {
+    updateAtts(yylineno, coln, yyleng, yytext, "CHAR ERROR");
+  } else { 
+    updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
+  }
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 

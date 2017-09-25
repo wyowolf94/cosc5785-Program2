@@ -724,44 +724,36 @@ case 2:
 YY_RULE_SETUP
 #line 34 "program2.lpp"
 {
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng;
-  //return COMM; 
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 40 "program2.lpp"
+#line 38 "program2.lpp"
 {
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln += yyleng; 
-  //return COMM; 
 } 
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 46 "program2.lpp"
+#line 42 "program2.lpp"
 {
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
-  coln = 1;
-  //return COMM; 
+  coln = 1; 
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 52 "program2.lpp"
+#line 46 "program2.lpp"
 {
   coln += yyleng;
-  //updateAtts(yylineno, coln, yyleng, "COMMENT", "MULTILINE");
   BEGIN(INITIAL); 
-  //return COMM; 
 }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 59 "program2.lpp"
+#line 51 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1; 
@@ -770,7 +762,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 65 "program2.lpp"
+#line 57 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
@@ -779,7 +771,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 71 "program2.lpp"
+#line 63 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
@@ -788,7 +780,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 77 "program2.lpp"
+#line 69 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
@@ -797,7 +789,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 83 "program2.lpp"
+#line 75 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
@@ -806,7 +798,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 89 "program2.lpp"
+#line 81 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "U-OP", yytext);
   coln += yyleng; 
@@ -815,7 +807,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 95 "program2.lpp"
+#line 87 "program2.lpp"
 { 
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
@@ -824,7 +816,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 101 "program2.lpp"
+#line 93 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "ID", yytext);
   coln+= yyleng;
@@ -833,7 +825,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 107 "program2.lpp"
+#line 99 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "NUMBER", yytext);
   coln+= yyleng;
@@ -842,7 +834,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 113 "program2.lpp"
+#line 105 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "SPACE", "");
   coln+= yyleng;
@@ -852,7 +844,7 @@ YY_RULE_SETUP
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 119 "program2.lpp"
+#line 111 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "NEWLINE", "");
   coln = 1;
@@ -861,7 +853,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 125 "program2.lpp"
+#line 117 "program2.lpp"
 {
   updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
@@ -870,7 +862,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 131 "program2.lpp"
+#line 123 "program2.lpp"
 {
   errn++;
   yyless(0);
@@ -882,7 +874,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 140 "program2.lpp"
+#line 132 "program2.lpp"
 {
   yymore();
   BEGIN(INNERERROR); 
@@ -891,20 +883,20 @@ YY_RULE_SETUP
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 145 "program2.lpp"
+#line 137 "program2.lpp"
 {
   yyless(yyleng-1);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 
 }
 	YY_BREAK
 case YY_STATE_EOF(WORDERROR):
-#line 153 "program2.lpp"
+#line 145 "program2.lpp"
 {
   yyless(yyleng-1);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 
@@ -912,17 +904,17 @@ case YY_STATE_EOF(WORDERROR):
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 161 "program2.lpp"
+#line 153 "program2.lpp"
 {
   yymore(); 
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 165 "program2.lpp"
+#line 157 "program2.lpp"
 {
   yyless(yyleng-2);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 
@@ -931,10 +923,14 @@ YY_RULE_SETUP
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 173 "program2.lpp"
+#line 165 "program2.lpp"
 {
   yyless(yyleng-1);
-  updateAtts(yylineno, coln, yyleng, "WRDERR", yytext);
+  if(yyleng == 1) {
+    updateAtts(yylineno, coln, yyleng, yytext, "CHAR ERROR");
+  } else { 
+    updateAtts(yylineno, coln, yyleng, yytext, "WORD ERROR");
+  }
   coln += yyleng;
   BEGIN(INITIAL);
   return WRDERR; 
@@ -942,7 +938,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 181 "program2.lpp"
+#line 177 "program2.lpp"
 {
   yymore();
   BEGIN(WORDERROR); 
@@ -950,10 +946,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 186 "program2.lpp"
+#line 182 "program2.lpp"
 ECHO;
 	YY_BREAK
-#line 957 "program2_lex.cpp"
+#line 953 "program2_lex.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 case YY_STATE_EOF(INNERERROR):
@@ -1862,7 +1858,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 186 "program2.lpp"
+#line 182 "program2.lpp"
 
 
 
